@@ -1,0 +1,28 @@
+{
+  "name": "joseph_dechant_design",
+  "version": "1.0.0",
+  "description": "Portfolio website for Joseph DeChant Design LLC",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "fs": "^0.0.1-security",
+    "mysql2": "^1.5.3",
+    "sequelize": "^4.37.10",
+    "sequelize-cli": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joey22622/graphic_design.git"
+  },
+  "author": "Joseph DeChant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joey22622/graphic_design/issues"
+  },
+  "homepage": "https://github.com/joey22622/graphic_design#readme"
+}
