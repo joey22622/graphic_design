@@ -1,5 +1,8 @@
 module.exports = function(sequelize, dataTypes){
     var Client = sequelize.define("Client",{
+        order : {
+            type : dataTypes.INTEGER
+        },
         name : {
             type : dataTypes.STRING
         },
@@ -12,6 +15,9 @@ module.exports = function(sequelize, dataTypes){
         },
         logo : {
             type : dataTypes.STRING
+        },
+        description : {
+            type: dataTypes.TEXT
         }
     });
 

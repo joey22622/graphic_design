@@ -1,0 +1,63 @@
+.client-list li{
+    background: rgba(0,0,0,.2);
+    padding: .5rem;
+    margin: 2px 0;
+    transition: .2s;
+    cursor: pointer;
+}
+.client-list li:hover{
+    background: rgba(0,0,0,.8);
+    color: white;
+}
+.client-list li:hover a{
+    color: white;
+    margin-left: 30px;
+}
+.client-lsit
+.editor-wrap{
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+form{
+    background: rgba(0,0,0,.2);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 3rem;
+}
+
+label{
+    text-transform: uppercase;
+    font-size: .8rem;
+}
+button{
+    cursor: pointer;
+    max-width: 10rem;
+}
+
+label,
+input,
+textarea{
+    margin: .2rem;
+}
+
+label{
+    margin-top: .6rem;
+    margin-left: .6rem;
+}
+
+input,
+textarea{
+    font-size: .9rem;
+    padding: .3rem;
+    border-radius: .2rem;
+    border: none;
+}
+
+.exhibits{
+    background : rgba(0,0,0,.2);
+    padding: 1rem;
+}

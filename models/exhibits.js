@@ -5,7 +5,7 @@ module.exports = function (sequelize, dataTypes){
             type : dataTypes.STRING
         },
         imagePath : {
-            type : dataTypes.TEXT
+            type : dataTypes.TEXT,
         },
         imageType : {
             type : dataTypes.STRING
@@ -22,8 +22,7 @@ module.exports = function (sequelize, dataTypes){
                 allowNull : false
             }
         });
-
-    }
+    };
 
     return Exhibit;
 }
