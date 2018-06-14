@@ -9,7 +9,7 @@ module.exports = function(sequelize, dataTypes){
         blurb : {
             type : dataTypes.STRING,
             validate : {
-                len : [1,255]
+                len : [0,255]
             }
         },
         logo : {

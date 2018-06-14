@@ -80,6 +80,14 @@ module.exports = function(app) {
         });
     });
 
+    app.get("/api/clients/init/new" , function(req,res){
+        db.Client.findAll({
+                order: [ [ 'createdAt', 'DESC' ]]
+            
+        }).then(function(data){
+            res.json(data);
+        });
+});
 //============ EXHIBITS TABLE ================
 
 // NEW EXHIBIT FOR UNDEFINED CLIENT
@@ -117,6 +125,14 @@ module.exports = function(app) {
             console.log(req.params.id)
         });
     });
+    
+    app.delete("/api/exhibits/delete/:id", function(req, res){
+        db.Exhibit.destroy({
+            where : {
+                id : req.params.id
+            }
+        });
+    });
 
     app.delete("/api/exhibits/homeless", function(req, res){
         db.Exhibit.destroy({
@@ -128,12 +144,39 @@ module.exports = function(app) {
         });
     });
 
+    app.post("/api/exhibits/submit", function(){
+
+    });
 
     app.post("/api/exhibits/new", function(req, res){
         db.Exhibit.create({
             order : req.body.order
         });
     });
+
+    app.put("/api/exhibits/submit", function(req, res){
+        db.Exhibit.update({
+            
+            order : req.body.order,
+            imagePath : req.body.imagePath,
+            imageType : req.body.imageType,
+            caption : req.body.caption,
+            ClientId : req.body.clientId,
+        } , {
+            where : {
+                id: req.body.exhibitId
+            }
+
+
+
+            
+        }).then(function(data){
+            res.json(data);
+        });
+
+    });
+
+
 
 // Routes end =======================
 };
