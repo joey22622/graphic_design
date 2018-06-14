@@ -7,7 +7,7 @@
         <link href="assets/css/reset.css" rel="stylesheet" type="text/css">
         <link href="assets/css/style.css" rel ="stylesheet" type="text/css">
         <link href="assets/css/cms-style.css" rel ="stylesheet" type="text/css">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
         <link rel="stylesheet" href="/resources/demos/style.css">
         <link rel="stylesheet" href="https://use.typekit.net/dmu1axj.css">
         <link href="assets/images/favicon.png" rel = "shortcut icon" type="image/png">
@@ -19,16 +19,13 @@
                     <ol id="sortable"></ol>
                 </div>
                 <form class="client-form">
-                    <label>Company Name</label>
-                    <input type="text" class="client-name" value="this is a name" name = "name">
-                    <label>Quick Description</label>
-                    <textarea class="client-blurb" name="blurb">this is a blurb</textarea>
-                    <label>Logo</label>
-                    <input type="text" class="client-logo" value="this is a logo" name ="logo" placeholder="image path/SVG code">
-                    <label>Full Description</label>
-                    <textarea name="description" value="this is a description" class="client-description">this is a description</textarea>
-                    <div class="exhibits">
-                        <ol id="sortable"></ol>
+                    
+                    <input type="text" class="client-name" value="this is a name" name = "name" placeholder="Company Name">
+                    <textarea class="client-blurb" name="blurb" placeholder="Quick Description">this is a blurb</textarea>
+                    <input type="text" class="client-logo" value="this is a logo" name ="logo" placeholder="Company Logo: image URL / SVG code">
+                    <textarea name="description" value="this is a description" class="client-description" placeholder="Detailed Description">this is a description</textarea>
+                    <div class="exhibit-list">
+                        <ol id="sortable-2"></ol>
                         <div class="exhibit-button-row">
                             <button class="exhibit-new" type="submit">Add new Exhibit</button>
                         </div>

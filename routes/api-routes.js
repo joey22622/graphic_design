@@ -21,14 +21,6 @@ module.exports = function(app) {
           });
       });
 
-    app.get("api/exhibits", function(req, res){
-        db.Exhibit.findAll({
-
-        }).then(function(data){
-            res.json(data);
-        });
-    });
-
     app.post("/api/clients", function(req, res){
         console.log(res)
         db.Client.create({
@@ -88,27 +80,60 @@ module.exports = function(app) {
         });
     });
 
+//============ EXHIBITS TABLE ================
+
+// NEW EXHIBIT FOR UNDEFINED CLIENT
+    app.post("/api/exhibits/init", function(req, res){
+        console.log("received");
+        db.Exhibit.create({
+            order : req.body.order
+
+
+        }).then(function(data){
+            res.json(data);
+        });
+    });
+    app.get("/api/exhibits/init", function(req, res){
+        db.Exhibit.findOne({
+
+                  order: [ [ 'createdAt', 'DESC' ]]
+
+        }).then(function(data){
+            res.json(data);
+        });
+    });
+
+
+    app.get("/api/exhibits/:id", function(req, res){
+        db.Exhibit.findAll({
+            
+            order : [["order" , "ASC"]],
+            where : {
+                ClientId : req.params.id
+            }
+
+        }).then(function(data){
+            res.json(data);
+            console.log(req.params.id)
+        });
+    });
+
+    app.delete("/api/exhibits/homeless", function(req, res){
+        db.Exhibit.destroy({
+            where : {
+                ClientId : null
+            }
+        }).then(function(data){
+            res.json(data);
+        });
+    });
+
 
     app.post("/api/exhibits/new", function(req, res){
         db.Exhibit.create({
             order : req.body.order
         });
     });
-    // app.put("/api/clients", function(req, res) {
-    //     db.Post.update(req.body,
-    //       {
-    //         where: {
-    //           order: req.body.id
-    //         }
-    //       })
-    //       .then(function(dbPost) {
-    //         res.json(dbPost);
-    //       });
-    //   });
-
-    // app.get("/api/clients/", function(req, res) {
-    //     db.
-    // })
 
 // Routes end =======================
 };

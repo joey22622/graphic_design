@@ -8,7 +8,6 @@ module.exports = function(sequelize, dataTypes){
         },
         blurb : {
             type : dataTypes.STRING,
-            allowNull : false,
             validate : {
                 len : [1,255]
             }

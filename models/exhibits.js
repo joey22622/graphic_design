@@ -18,9 +18,9 @@ module.exports = function (sequelize, dataTypes){
 
     Exhibit.associate = function(models){
         Exhibit.belongsTo(models.Client, {
-            foreignKey : {
-                allowNull : false
-            }
+            // foreignKey : {
+            //     allowNull : false
+            // }
         });
     };
 

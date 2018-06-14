@@ -1,19 +1,49 @@
+body{
+    min-height: 100vh;
+}
+@media screen and (min-width: 992px){
+    .editor-wrap{
+        display: flex;
+        /* flex-direction: row */
+        align-items: stretch;
+        min-height: 100vh;
+    }
+}
+
 .client-list li{
-    background: rgba(0,0,0,.2);
-    padding: .5rem;
+    background: rgba(250,250,255,1);
+    padding: 1rem;
     margin: 2px 0;
-    transition: .2s;
+    transition: .1s;
     cursor: pointer;
+    border-bottom: solid 1px rgba(0,0,0,.4);
+    border-top: solid 1px rgba(0,0,0,.4);
+    color: black;
+    font-size: .9rem;
+    text-transform: uppercase;
+
+
+}
+.client-list li a{
+    transition: .2s;
+    color: black;
+
+    
+}
+.client-list li a span{
+    margin-left: .3rem;
 }
 .client-list li:hover{
     background: rgba(0,0,0,.8);
     color: white;
+    border-top: solid 1px white;
+    border-bottom: solid 1px white;
 }
 .client-list li:hover a{
     color: white;
     margin-left: 30px;
 }
-.client-lsit
+.client-list
 .editor-wrap{
     display: flex;
     justify-content: center;
@@ -21,21 +51,39 @@
     flex-direction: column;
     padding: 2rem;
 }
+.client-list{
+    background: rgba(0,0,0,.9);
+}
+@media screen and (min-width: 962px){
+    .client-list{
+        min-width: 25%;
+    }
+
+}
 
 form{
-    background: rgba(0,0,0,.2);
+    background: rgba(0,0,0,.87);
     display: flex;
     flex-direction: column;
     padding: 1rem 3rem;
+    border: solid black 2px;
+}
+
+@media screen and (min-width: 962px){
+    form{
+        flex-grow: 100;
+        
+    }
 }
 
 label{
     text-transform: uppercase;
     font-size: .8rem;
 }
-button{
-    cursor: pointer;
-    max-width: 10rem;
+
+.client-button-row{
+    display: flex;
+    justify-content: center;
 }
 
 label,
@@ -50,14 +98,67 @@ label{
 }
 
 input,
-textarea{
-    font-size: .9rem;
+textarea,
+button{
+    font-size: .8rem;
     padding: .3rem;
-    border-radius: .2rem;
+    border-radius: 3px;
     border: none;
+    margin: .5rem;
+    border: solid 1px rgba(0,0,0,.6);
+}
+input,
+textarea{
+    padding-left: .6rem;
 }
 
-.exhibits{
-    background : rgba(0,0,0,.2);
+button{
+    cursor: pointer;
+    padding: .4rem 1rem;;
+    text-transform: uppercase;
+    transition: .3s;
+}
+
+button:hover{
+    background: black;
+    border: solid 1px white;
+    color: white;
+}
+
+.exhibit-list{
+    background : rgba(0,0,0,.8);
+    border-radius: 3px;
+    border: solid 1px black;
     padding: 1rem;
+    margin: .5rem;
+}
+
+.exhibit-list li{
+    display: flex;
+    flex-wrap : wrap;
+    padding: .5rem;
+    background: rgba(0,0,0,.6);
+    border-top: solid 1px rgba(255,255,255,.3);
+    border-bottom: solid 1px rgba(255,255,255,.3);
+    margin: 2px 0;
+}
+
+.exhibit-radio{
+    display: flex;
+    align-items: center;
+    color: white;
+    text-transform: uppercase;
+    font-size: .9rem;
+}
+.exhibit-radio span{ 
+    padding: .5rem;
+    margin-top: .2rem;
+    font-size: .8rem;
+}
+
+::placeholder{
+    color: rgba(0,0,0,.7);
+    font-size: .7rem;
+    text-transform: uppercase;
+    margin-left: 1rem;
 }
