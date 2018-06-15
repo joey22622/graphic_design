@@ -16,12 +16,13 @@ body{
 /* ************* HEADER BAR **************** */
 
 header{
-    background: rgba(0,0,0,.5);
+    background: rgba(0,0,0,.8);
     position: fixed;
     height: 100vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
+    align-items: center;
     transition: .5s;
     z-index: 1000;
     pointer-events: none;
@@ -48,6 +49,31 @@ header{
 	fill: #222;
     background: #222;
 }
+
+
+
+#line_1 line{
+    stroke: rgba(0,0,0,.5)!important;
+    transition: 1s;
+}
+#line_2 line{
+    stroke: rgba(0,0,0,.5)!important;
+    transition: 2s;
+
+}
+#line_3 line{
+    stroke: rgba(0,0,0,.5)!important;
+    transition: .2s;
+}
+#line_4 line{
+    stroke: rgba(0,0,0,.5) !important;
+    transition: .3s;
+}
+#line_5 line{
+    stroke: rgba(255,255,255,.8)!important;
+    transition: .6s;
+}
+
 
 .header-wrap .header-border-y {
 	height: 8px;
@@ -103,8 +129,12 @@ header{
     flex-grow: 100;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     flex-direction: column;
 }
+
+
+
 h1{
     text-transform: uppercase;
     font-weight: 400;
@@ -127,6 +157,16 @@ h1{
     color: white;
     font-size: 1.2rem;
     font-weight: 500;
+}
+@media screen and (min-width: 962px){
+    h1,
+    .design{
+        width: 25rem;
+        color: white;
+    }
+    h1{
+        letter-spacing: 9px;
+    }
 }
 .dash{
     display: block;
@@ -171,7 +211,7 @@ maximize a:hover{
     font-size: .8rem;
     padding: 1rem 0 .5rem 0;
 }
-@me
+
 .minimize a:hover{
     padding: 1rem 0;
     font-size: 1rem;
@@ -210,6 +250,21 @@ nav .dash{
 .scrolled nav li{
     background: rgba(255,255,255,1);
 }
+
+@media screen and (min-width: 962px){
+    nav ul{
+        width: 100vw;
+    }
+    nav li .dash{
+        width : 8rem;
+        flex-grow: 0;
+    }
+    nav li a{
+        justify-content: center;
+
+    }
+}
+
 .scrolled nav .dash-content{
     color: inherit;
 
@@ -241,11 +296,92 @@ $("nav").css({"margin-top" : "0"}); */
     margin-top: 100vh;
 }
 .site-category{
-    height: 120vh;
-    background: black;
+    min-height: 120vh;
+    background: rgba(0,0,0,.01);
     margin: 2rem;
 }
 
-#line_2 line{
-    stroke: green !important;
+
+
+
+
+.shimmer{
+    position: absolute;
+    width: 100%;
+    height: 80%;
+    z-index: -1;
+    bottom: 0;
+    opacity: .5;
 }
+
+#line_1 line{
+    stroke: rgba(255,255,255,.5)!important;
+    -webkit-animation: line_1 1s linear infinite;
+    -moz-animation: line_1 1s linear infinite;
+    animation: line_1 1s linear infinite;
+}
+#line_2 line{
+    stroke: rgba(255,255,255,.5)!important;
+    -webkit-animation: line_2 1s linear infinite;
+    -moz-animation: line_2 1s linear infinite;
+    animation: line_2 1s linear infinite;
+}
+#line_3 line{
+    stroke: rgba(255,255,255,.5)!important;
+    -webkit-animation: line_3 .7s linear infinite;
+    -moz-animation: line_3 .7s linear infinite;
+    animation: line_3 .7s linear infinite;
+}
+#line_4 line{
+    stroke: rgba(255,255,255,.5) !important;
+    -webkit-animation: line_4 .4s linear infinite;
+    -moz-animation: line_4 .4s linear infinite;
+    animation: line_4 .4s linear infinite;
+}
+#line_5 line{
+    stroke: rgba(255,255,255,.4)!important;
+    -webkit-animation: line_2 1s linear infinite;
+    -moz-animation: line_2 1s linear infinite;
+    animation: line_5 .6s linear infinite;
+}
+
+@-webkit-keyframes line_1 {
+    0% {opacity: 0; transform: translateY(0)}
+    100% {opacity: .7; transform: translateY(1000px)}
+    }
+@-webkit-keyframes line_2 {
+    0% {opacity: 0; transform: translateY(0)}
+    100% {opacity: .7; transform: translateY(1000px)}
+}
+@-webkit-keyframes line_3 {
+    0% {opacity: 0; transform: translateY(0)}
+    100% {opacity: .7; transform: translateY(1000px)}
+    }
+
+@-webkit-keyframes line_4 {
+    0% {opacity: 0; transform: translateY(0)}
+    100% {opacity: .7; transform: translateY(1000px)}
+}
+@-webkit-keyframes line_5 {
+    0% {opacity: 0; transform: translateY(0)}
+    100% {opacity: .7; transform: translateY(1000px)}
+}
+
+
+/* }
+@-moz-keyframes pulsate {
+0% {background: black}
+20% {background: red}
+40% {background: blue}
+60% {background: orange}
+80% {background: green}
+100% {background: black}
+}
+@keyframes pulsate {
+0% {background: black}
+20% {background: red}
+40% {background: blue}
+60% {background: orange}
+80% {background: green}
+100% {background: black}
+} */
