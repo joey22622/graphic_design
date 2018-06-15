@@ -21,7 +21,7 @@ function toggleLanding(){
         if($(this).scrollTop() > 40){
             $("header").addClass("scrolled");
             $("nav ul").css("min-height" , contentHeight);
-            $(".shimmer").css("display: none");
+            $(".shimmer").empty();
         //APPLY DISPLAY NONE TO ELEMENTS THAT HAVE FADED OUT
             if(hideReady){
                 hide = setTimeout(function(){
@@ -139,3 +139,7 @@ function blankExhibit(){
 function blankExhibitWrap(){
     
 }
+
+$.get("/api/clients/front", function(data){
+
+});
