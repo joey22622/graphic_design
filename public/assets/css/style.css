@@ -245,3 +245,7 @@ $("nav").css({"margin-top" : "0"}); */
     background: black;
     margin: 2rem;
 }
+
+#line_2 line{
+    stroke: green !important;
+}

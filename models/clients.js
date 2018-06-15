@@ -18,6 +18,10 @@ module.exports = function(sequelize, dataTypes){
         description : {
             type: dataTypes.TEXT
         }
+    },{
+        associate: function(models) {
+          Client.hasMany(models.Exhibit, { onDelete: 'cascade' });
+        }
     });
 
     return Client;

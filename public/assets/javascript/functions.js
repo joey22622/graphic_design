@@ -116,3 +116,18 @@ $(window).on("scroll", function(){
     //     toggleDown();
     // }
 });
+
+
+//=============== AJAX CALLS =====================
+
+function blankClient(){
+    var banner = $("<li class='client-banner'>");
+    var thumbnail = $("<div class='client-thumbnail-wrap'>");
+    var introWrap = $("<div class='client-intro-wrap'>");
+    var name = $("<h2 class='client-name'>");
+    var blurb = $("<p class='client-blurb'>");
+    introWrap.append([name, blurb]);
+    banner.append([thumbnail, introWrap]);
+
+    return banner;
+}

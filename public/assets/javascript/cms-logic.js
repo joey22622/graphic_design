@@ -33,7 +33,6 @@ function renderClientList(){
                 $(".client-button-row").append(addClient);
             }
     });
-    console.log("fuck");
     
 }
 
@@ -59,6 +58,8 @@ $(function() {
     $( "#sortable" ).sortable({
         //STOP method reorganizes order values and then reloads list
         stop: function(){
+            //variable that increments inside .done portion of AJAX call to determine when all data has been received
+            var completeTracker = 0;
             for(var i = 0; i < clientCount; i++){
                 var orderValues = {
                     newVal : i,
@@ -68,13 +69,13 @@ $(function() {
                     url : "api/clients/reorder",
                     method : "PUT",
                     data : orderValues
-                }).then(function(){
-                    console.log("this prints twice?");
-                    renderClientList();
+                }).done(function(){
+                    completeTracker++;
+                    if(completeTracker === clientCount){
+                        renderClientList();
+                    }
                 });
             }
-            
-
         }
     });
     $( "#sortable" ).disableSelection();
@@ -95,6 +96,13 @@ $(function() {
 //=========== GENERAL FORM RENDERRING ==================
 
 function renderForm(){
+    if(editing === true){
+        var  conf = confirm("You have unsaved changes! press OK to continue anyway, Cancel to go back");
+        if(conf === false){
+            return;
+        }
+    }
+
     var id = $(this).attr("data-id");
     if(id){
         var queryURL = "/api/clients/" + id;
@@ -113,18 +121,18 @@ function renderForm(){
                 $(".client-delete").remove();
                 var clientDelete = $("<button class='client-delete' data-id='"+id+"'>").text("Delete " + data.name);
                 $(".form-button-row").append(clientDelete);
-            }
-        }).then(function(){
+            } 
+        }).then(function(){ 
             newPost = false;
         });
         renderExhibits(id);
         console.log(id);
     } else {
-        $('.form-header').text("Fill and submit to add client");
+        $('.form-header').text("'Fill' and 'submit' to add new client");
         $(".client-submit").text("Add New Client");
         submitReset();
     }
-}
+} 
 
 
 //========== EXHIBIT RENDERING/CREATION FUNCTIONS ============
@@ -139,7 +147,7 @@ function createNewExhibit(){
         order : exhibitCount,
         id : 0
     };
-    if(newPost){
+    // if(newPost){
         exhibitReady = false;
         $.post("/api/exhibits/init", exhibit, function(){
             console.log("It's going... hopefully");
@@ -158,18 +166,19 @@ function createNewExhibit(){
             });
 
         });
-    } else {
-        $(".exhibit-list ol").append(createExhibitRow(exhibit));
-        console.log(exhibit);
-        exhibitCount++;
-        exhibitReady = true;
-    }
-    console.log("create new exhibit");
+    // } else {
+    //     $(".exhibit-list ol").append(createExhibitRow(exhibit));
+    //     console.log(exhibit);
+    //     exhibitCount++;
+    //     exhibitReady = true;
+    // }
+    // console.log("create new exhibit");
 }
 
 function renderExhibits(id){
     var exhibits = $(".exhibit-list ol");
-    var exhibitQuery = "/api/exhibits/"+ id;
+    exhibits.empty();
+    var exhibitQuery = "/api/exhibits/"+ id; 
     console.log("renderexhibit");
     $.get(exhibitQuery, function(data){
         console.log(data);
@@ -183,6 +192,7 @@ function renderExhibits(id){
 function createExhibitRow(exhibit){
     console.log(exhibit["order"]);
       var exhibitItem = $("<li class='ui-state-default exhibit' data-foreign-key='"+exhibit.clientId+"' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit["id"]+"'>");
+      var num = $("<span class='exhibit-count'>").text(eval(exhibit.order+1)+".");
       var imgPath = $("<input class='image-path' placeholder='image path/SVG code' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id +"'>").val(exhibit.imagePath);
       var caption = $("<input class='image-caption' placeholder='image caption' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id +"'>").val(exhibit.caption);
       var radioWrap = $("<div class='exhibit-radio'>");
@@ -192,7 +202,7 @@ function createExhibitRow(exhibit){
       var svg = $("<input type='radio' data-exhibit-order='"+exhibit.order+"' name='radio"+exhibit.id + "' value='svg'>");
       var exhibitDelete = $("<button class='exhibit-delete' type='submit' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id+"'>").text("Delete Row");
       radioWrap.append([imgSpan, imgURL, svgSpan, svg]);
-      exhibitItem.append([imgPath, caption, radioWrap, exhibitDelete]);
+      exhibitItem.append([num,imgPath, caption, radioWrap, exhibitDelete]);
       return exhibitItem;
 }
 
@@ -243,7 +253,7 @@ function submitForm(){
 
 
       }
-      
+      editing = false;
   }
 
   function sendExhibits(id){
@@ -294,22 +304,13 @@ function submitForm(){
   }
 
 
-/*
-
-SEND EXHIBITS
-  FOR LOOP THAT PASSES THROUGH ALL DATA-EXHIBIT-IDS
-    IF EXHIBIT ID = FALSE
-        POST REQUEST
-            THEN SUBMIT RESET
-    ELSE
-        UPDATE  WHERE DATA-EXHIBIT-ID = ID
-            THEN SUBMIT RESET
-
-    
-*/
 
 
-
+$("form :input").change(function() {
+    $("form").data("changed",true);
+    editing = true;
+ });
+ 
 
 function submitReset(){
     $(".client-form textarea").val("");
@@ -317,10 +318,18 @@ function submitReset(){
     $(".client-submit").removeAttr("data-id");
     $(".client-delete").remove();
     $(".exhibit-list ol").empty();
-    $(".form-sumbit").text("Add new client");
+    $(".client-submit").text("Add new client");
+    $(".form-header").text("'Fill' and 'submit' to add new client")
     console.log("reseting....");
+    exhibitCount = 0;
     newPost = true;
     renderClientList();
+
+    // GOAL IS TO RUN SUBMITRESET INSTEAD OF RENDERFORM, THE BELOW CODE CRASHES THE SITE THOUGH...
+    // deleteHomeless();
+    // renderClientList();
+    // renderForm()
+
 }
 
 //   function update
@@ -330,6 +339,7 @@ function updateExhibitOrder(){
     for(var i = 0; i < exhibitCount; i++){
             console.log("updating order...")
             $(".exhibit-list #sortable-2 li:nth-child("+eval(i+1)+"), .exhibit-list #sortable-2 li:nth-child("+eval(i+1)+") input, .exhibit-list #sortable-2 li:nth-child("+eval(i+1)+") .exhibit-delete").attr("data-exhibit-order", i);
+            $(".exhibit-list #sortable-2 li:nth-child("+eval(i+1)+") .exhibit-count").text(eval(i+1) + ".");
         }
         console.log("updating order...")
 
@@ -381,6 +391,7 @@ function deleteClient(){
 $(document).ready(deleteHomeless);
 // $(document).on("click", ".client-delete", deleteClient);
 $(document).on("click", ".exhibit-delete", deleteExhibit);
+$(document).on("click", ".client-delete", deleteClient);
 $(document).on("click", ".client-submit", submitForm);
 $(document).on("click", ".client-list li", renderForm);
 $(document).on("click", ".client-new", renderForm);
