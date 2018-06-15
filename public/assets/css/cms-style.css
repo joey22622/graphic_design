@@ -69,6 +69,15 @@ form{
     border: solid black 2px;
 }
 
+.form-header{
+    display: block;
+    min-height: 2rem;
+    color: white;
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-left: 1rem;
+}
+
 @media screen and (min-width: 962px){
     form{
         flex-grow: 100;
@@ -81,9 +90,12 @@ label{
     font-size: .8rem;
 }
 
-.client-button-row{
+.client-button-row,
+.exhibit-button-row,
+.form-button-row{
     display: flex;
     justify-content: center;
+    padding: .5rem 0;
 }
 
 label,

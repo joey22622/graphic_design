@@ -20,13 +20,20 @@ function renderClientList(){
             clientList.append(createClientRow(data[i]));
             }
             clientCount = data.length;
-            var clientNew = $("<li class='client'>");
-            clientNew.attr({"class" : "add-client"});
-            var anchor = $("<a href='#'>");
-            clientNew.append(anchor);
-            anchor.text("Add new client");
-            clientList.append(clientNew);
+            // var clientNew = $("<li class='client'>");
+            // clientNew.attr({"class" : "add-client"});
+            // var anchor = $("<a href='#'>");
+            // clientNew.append(anchor);
+            // anchor.text("Add new client");
+            // clientList.append(clientNew);
+
+            if(clientCount > 0){
+                var addClient = $("<button type='submit' class='client-new'>").text("New Client");
+                $(".client-button-row").empty();
+                $(".client-button-row").append(addClient);
+            }
     });
+    console.log("fuck");
     
 }
 
@@ -45,6 +52,7 @@ function createClientRow(client) {
 var activeClient = {};
 
 
+
 //=================== JQUERY UI 'SORTABLE' FUNCTIONS =================
 //enables client list sorting
 $(function() {
@@ -61,10 +69,11 @@ $(function() {
                     method : "PUT",
                     data : orderValues
                 }).then(function(){
-                    console.log(i);
+                    console.log("this prints twice?");
+                    renderClientList();
                 });
             }
-            renderClientList();
+            
 
         }
     });
@@ -94,14 +103,16 @@ function renderForm(){
         $.get(queryURL, function(data){
             if(data){
                 console.log(data);
+                var formHeader = $(".form-header").text("Now editing : " + data.name);
+
                 $(".client-name").val(data.name);
                 $(".client-blurb").val(data.blurb);
                 $(".client-logo").val(data.logo);
                 $(".client-description").val(data.description);
                 $(".client-submit").text("Update " + data.name);
                 $(".client-delete").remove();
-                var clientDelete = $("<button class='client-delete' type='submit' data-id='"+id+"'>").text("Delete " + data.name);
-                $(".client-button-row").append(clientDelete);
+                var clientDelete = $("<button class='client-delete' data-id='"+id+"'>").text("Delete " + data.name);
+                $(".form-button-row").append(clientDelete);
             }
         }).then(function(){
             newPost = false;
@@ -109,9 +120,12 @@ function renderForm(){
         renderExhibits(id);
         console.log(id);
     } else {
-        // submitReset();
+        $('.form-header').text("Fill and submit to add client");
+        $(".client-submit").text("Add New Client");
+        submitReset();
     }
 }
+
 
 //========== EXHIBIT RENDERING/CREATION FUNCTIONS ============
 
@@ -303,23 +317,13 @@ function submitReset(){
     $(".client-submit").removeAttr("data-id");
     $(".client-delete").remove();
     $(".exhibit-list ol").empty();
+    $(".form-sumbit").text("Add new client");
     console.log("reseting....");
-    exhibitCount = 0;
     newPost = true;
     renderClientList();
 }
 
 //   function update
-$(document).ready(deleteHomeless);
-$("body").on("click", ".exhibit-delete", deleteExhibit);
-$("body").on("click", ".client-submit", submitForm);
-$("body").on("click", ".client-list li", renderForm);
-$("body").on("click", ".exhibit-new", function(){
-    if(exhibitReady){
-        createNewExhibit();
-    }
-});
-renderClientList();
 
 
 function updateExhibitOrder(){
@@ -331,11 +335,15 @@ function updateExhibitOrder(){
 
 }
 
+//================= ITEM DELETE FUNCTIONS =========================
+
 //  function that deletes row and reorders other rows
 function deleteExhibit(){
     event.preventDefault();
     var orderId = $(this).attr("data-exhibit-order");
-    var queryURL = "/api/exhibits/delete/" + orderId;
+    var dataId = $(this).attr("data-exhibit-id");
+    console.log("data id " + dataId);
+    var queryURL = "/api/exhibits/delete/" + dataId;
     $("li[data-exhibit-order='"+orderId+"']").remove();
     $.ajax({
         url: queryURL,
@@ -347,10 +355,42 @@ function deleteExhibit(){
 
     console.log(orderId);
     exhibitCount--;
-    updateExhibitOrder();
-
-    
+    updateExhibitOrder();   
 }
+
+function deleteClient(){
+    event.preventDefault();
+    dataId = $(this).attr("data-id");
+    console.log(dataId);
+    queryURL = "/api/clients/delete/" + dataId;
+    $.ajax({
+        url: queryURL,
+        method: "DELETE"
+        
+    }).done(function(){
+        submitReset();
+
+    });
+
+
+
+ }
+
+//================CALL BACK EVENTS ====================
+
+$(document).ready(deleteHomeless);
+// $(document).on("click", ".client-delete", deleteClient);
+$(document).on("click", ".exhibit-delete", deleteExhibit);
+$(document).on("click", ".client-submit", submitForm);
+$(document).on("click", ".client-list li", renderForm);
+$(document).on("click", ".client-new", renderForm);
+$(document).on("click", ".exhibit-new", function(){
+    if(exhibitReady){
+        createNewExhibit();
+    }
+});
+renderClientList();
+
 
 /*
 WHEN CLICKING A LIST ITEM (IF EDITS IN PROGRESS === FALSE){

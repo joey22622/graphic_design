@@ -87,7 +87,18 @@ module.exports = function(app) {
         }).then(function(data){
             res.json(data);
         });
-});
+    });
+
+    app.delete("/api/clients/delete/:id" , function(req,res){
+        db.Client.destroy({
+            where : {
+                id : req.params.id
+            }
+        }).then(function(data){
+            res.json(data);
+        });
+
+    });
 //============ EXHIBITS TABLE ================
 
 // NEW EXHIBIT FOR UNDEFINED CLIENT
