@@ -4,8 +4,80 @@ var exhibitCount = 0;
 var editActive;
 var newPost = true;
 var editing = false;
+var clientTrusted = false;
 //restricts use of createNewExhibit function until AJAX request is complete
 var exhibitReady = true;
+// var cmsPage = $("body").html();
+// console.log(cmsPage);
+// $("body").empty();
+// $("body").append(cmsPage);
+let key = localStorage.getItem('key');
+// checks local storage for existing key
+function initAuth(){
+    if(key){
+        // checks the db for matching key
+        const req = {key};
+        $.post("/api/key", req, function(data){
+            console.log(data);
+            if(data){
+                clientTrusted = true;
+                loadResources();
+            }
+        });
+        // deletes login screen if matches
+    }
+    console.log(key);
+}
+
+function loadResources(){
+    if(clientTrusted){
+        renderClientList();
+        $("body").removeClass("locked");
+        $('.user-auth-wrap').remove();
+    }
+}
+
+initAuth();
+
+
+//Authenticates User
+function clientLogout(){
+    localStorage.clear();
+    $.ajax({
+        url : "api/logout/" + key,
+        method : "DELETE"
+
+    }).done(function(){
+        location.reload();
+    }); 
+}
+$(".logout").on("click", clientLogout);
+function userAuth(e){
+    e.preventDefault();
+    var authInfo = {
+        user : $(".user").val(),
+        password : $(".password").val()
+    }
+
+    $.post("/api/auth", authInfo, function(data){
+        console.log(authInfo);
+        console.log(data);
+        if(data.key){
+            console.log("key valid");
+            localStorage.setItem('key' , data.key);
+            key = data.key;
+            clientTrusted = true;
+            console.log("halsdkfjasd");
+            loadResources();
+
+            
+        }
+    });
+    
+}
+$(".user-auth button").on("click", function(event){
+    userAuth(event);
+});
 
 //============= CLIENT LIST FUNCTIONS ===================
 
@@ -66,7 +138,7 @@ $(function() {
                     id : $(".client-list li:nth-child("+eval(i+1)+")").attr("data-id"),
                 };
                 $.ajax({
-                    url : "api/clients/reorder",
+                    url : "api/clients/reorder/" + key,
                     method : "PUT",
                     data : orderValues
                 }).done(function(){
@@ -105,7 +177,7 @@ function renderForm(){
 
     var id = $(this).attr("data-id");
     if(id){
-        var queryURL = "/api/clients/" + id;
+        var queryURL = "/api/clients/" + id + "/" + key;
         $(".client-submit").attr("data-id" , id);
 
         $.get(queryURL, function(data){
@@ -117,6 +189,8 @@ function renderForm(){
                 $(".client-blurb").val(data.blurb);
                 $(".client-logo").val(data.logo);
                 $(".client-description").val(data.description);
+                $(".client-link").val(data.link);
+                $(".client-link-text").val(data.linkText);
                 $(".client-submit").text("Update " + data.name);
                 $(".client-delete").remove();
                 var clientDelete = $("<button class='client-delete' data-id='"+id+"'>").text("Delete " + data.name);
@@ -149,10 +223,10 @@ function createNewExhibit(){
     };
     // if(newPost){
         exhibitReady = false;
-        $.post("/api/exhibits/init", exhibit, function(){
+        $.post("/api/exhibits/init/" + key, exhibit, function(){
             console.log("It's going... hopefully");
         }).done(function(){
-            $.get("/api/exhibits/init", function(data){
+            $.get("/api/exhibits/init/" + key, function(data){
                 console.log("It worked?");
                 exhibit.id = data.id
                 exhibit.clientId = data.ClientId
@@ -192,17 +266,28 @@ function renderExhibits(id){
 function createExhibitRow(exhibit){
     console.log(exhibit["order"]);
       var exhibitItem = $("<li class='ui-state-default exhibit' data-foreign-key='"+exhibit.clientId+"' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit["id"]+"'>");
+      var rowWrap = $("<div class='row-wrap'>")
+      var row1 = $("<div class='row-1'>");
+      var row2 = $("<div class='row-2'>");
+
       var num = $("<span class='exhibit-count'>").text(eval(exhibit.order+1)+".");
       var imgPath = $("<input class='image-path' placeholder='image path/SVG code' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id +"'>").val(exhibit.imagePath);
       var caption = $("<input class='image-caption' placeholder='image caption' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id +"'>").val(exhibit.caption);
+      var link = $("<input class='image-link' placeholder='image link' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id +"'>").val(exhibit.imageLink);
       var radioWrap = $("<div class='exhibit-radio'>");
-      var imgSpan = $('<span>').text("URL");
+      var imgSpan = $('<span>').text("SRC");
       var svgSpan = $('<span>').text("SVG");
       var imgURL = $("<input type='radio' data-exhibit-order='"+exhibit.order+"' name='radio"+exhibit.id + "' value='image-url' checked>");
       var svg = $("<input type='radio' data-exhibit-order='"+exhibit.order+"' name='radio"+exhibit.id + "' value='svg'>");
-      var exhibitDelete = $("<button class='exhibit-delete' type='submit' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id+"'>").text("Delete Row");
+      var description = $("<input class='image-description' placeholder='image description (optional)' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id +"'>").val(exhibit.imageDescription);
+      var title = $("<input class='image-title' placeholder='image title (optional)' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id +"'>").val(exhibit.imageTitle);
+
+      var exhibitDelete = $("<button class='exhibit-delete' type='submit' data-exhibit-order='"+exhibit.order+"' data-exhibit-id='"+exhibit.id+"'>").text("X");
       radioWrap.append([imgSpan, imgURL, svgSpan, svg]);
-      exhibitItem.append([num,imgPath, caption, radioWrap, exhibitDelete]);
+      row1.append([link, imgPath, caption, radioWrap]);
+      row2.append([title, description]);
+      var rowWrap = $("<div class='row-wrap'>").append([row1,row2]);
+      exhibitItem.append([num,rowWrap,exhibitDelete]);
       return exhibitItem;
 }
 
@@ -215,6 +300,8 @@ function submitForm(){
     var client = {
         name : $(".client-name").val().trim(),
         blurb : $(".client-blurb").val().trim(),
+        link : $(".client-link").val().trim(),
+        linkText : $(".client-link-text").val().trim(),
         logo :  $(".client-logo").val().trim(),
         description :  $(".client-description").val().trim(),
         order : clientCount  
@@ -223,7 +310,7 @@ function submitForm(){
         console.log("this is not a new post");
         client.id = $(this).attr("data-id");
         $.ajax({
-            url : "/api/clients/update",
+            url : "/api/clients/update/" + key,
             method : "PUT",
             data : client
         }).done(function(){
@@ -234,11 +321,11 @@ function submitForm(){
             console.log('FAIL');
         });
       } else {
-        $.post("/api/clients", client, function(){
+        $.post("/api/clients/" + key, client, function(){
             console.log(client);
         }).done(function(){
             //gets the ClientId of the most recently created post in Clients table
-            $.get("/api/clients/init/new", function(data){
+            $.get("/api/clients/init/new/" + key, function(data){
               console.log("hi there");
               console.log(data);
               id = data[0].id;
@@ -264,9 +351,13 @@ function submitForm(){
             var exId = $("li" + dataAttr).attr("data-exhibit-id");
             var dataId = "[data-exhibit-id='"+exId+"']";
             var exhibit = {
-                imagePath : $(".image-path"+dataId).val(),
+                imageLink : $(".image-link" + dataId).val(),
+                imageDescription : $(".image-description" + dataId).val(),
+                imageTitle : $(".image-title" + dataId).val(),
+                imagePath : $(".image-path" + dataId).val(),
                 caption : $(".image-caption" + dataId).val(),
                 imageType : $("input[name='radio"+exId+"']:checked").val(),
+
                 order : i,
                 exhibitId : exId,
                 clientId : id
@@ -274,7 +365,7 @@ function submitForm(){
 
             
             $.ajax({
-                url : "api/exhibits/submit", 
+                url : "api/exhibits/submit/" + key, 
                 method : "PUT",
                 data : exhibit
             }).then(function(){
@@ -293,7 +384,7 @@ function submitForm(){
   function deleteHomeless(){
     console.log("Homeless exhibits removed");
 
-    var exhibitQuery = "/api/exhibits/homeless";
+    var exhibitQuery = "/api/exhibits/homeless/" + key;
     $.ajax({
         url : exhibitQuery,
         method : "DELETE"
@@ -353,7 +444,7 @@ function deleteExhibit(){
     var orderId = $(this).attr("data-exhibit-order");
     var dataId = $(this).attr("data-exhibit-id");
     console.log("data id " + dataId);
-    var queryURL = "/api/exhibits/delete/" + dataId;
+    var queryURL = "/api/exhibits/delete/" + dataId + "/" + key;
     $("li[data-exhibit-order='"+orderId+"']").remove();
     $.ajax({
         url: queryURL,
@@ -372,7 +463,7 @@ function deleteClient(){
     event.preventDefault();
     dataId = $(this).attr("data-id");
     console.log(dataId);
-    queryURL = "/api/clients/delete/" + dataId;
+    queryURL = "/api/clients/delete/" + dataId + "/" + key;
     $.ajax({
         url: queryURL,
         method: "DELETE"
@@ -400,7 +491,7 @@ $(document).on("click", ".exhibit-new", function(){
         createNewExhibit();
     }
 });
-renderClientList();
+// renderClientList();
 
 
 /*

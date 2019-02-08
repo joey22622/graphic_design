@@ -13,10 +13,19 @@ module.exports = function(sequelize, dataTypes){
             }
         },
         logo : {
-            type : dataTypes.STRING
+            type : dataTypes.TEXT
         },
         description : {
             type: dataTypes.TEXT
+        },
+        link : {
+            type : dataTypes.STRING
+        },
+        linkText : {
+            type : dataTypes.STRING,
+            validate : {
+                len : [0,255]
+            }
         }
     },{
         associate: function(models) {

@@ -13,8 +13,15 @@ module.exports = function (sequelize, dataTypes){
         order : {
             type : dataTypes.INTEGER
         },
-        
-
+        imageLink : {
+            type : dataTypes.STRING
+        },
+        imageTitle : {
+            type : dataTypes.TEXT
+        },
+        imageDescription : {
+            type : dataTypes.TEXT
+        }
     });
 
     Exhibit.associate = function(models){

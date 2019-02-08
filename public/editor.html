@@ -15,7 +15,24 @@
         <link href="assets/images/favicon.png" rel = "shortcut icon" type="image/png">
         <title></title>
     </head>
-    <body>
+    <body class="locked">
+        <div class="user-auth-wrap">
+            <div class="user-auth">
+                <form>
+                    <p>Are you Joey?  Prove it.</p>
+                    <label>Username</label>
+                    <input class="user" name="user" placeholder="username">
+                    <label>Password</label>
+                    <input class="password" type="password" name="password" placeholder="password">
+                    <button type="submit">Submit</button> 
+                </form>
+            </div>
+        </div>
+        <div class= "logout-wrap">
+            <button class="logout">
+                Sign Out
+            </button>
+        </div>
         <div class = "editor-wrap">
                 <div class="client-list">
                     <ol id="sortable"></ol>
@@ -28,6 +45,10 @@
                     <input type="text" class="client-name" name = "name" placeholder="Company Name">
                     <textarea class="client-blurb" name="blurb" placeholder="Quick Description"></textarea>
                     <input type="text" class="client-logo" name ="logo" placeholder="Company Logo: image URL / SVG code">
+                    <div class="client-link-row">
+                        <input type="text" class="client-link" name = "link" placeholder="Link">
+                        <input type="text" class="client-link-text" name = "linkText" placeholder="Link Description">
+                    </div>
                     <textarea name="description" class="client-description" placeholder="Detailed Description"></textarea>
                     <div class="exhibit-list">
                         <ol id="sortable-2"></ol>
