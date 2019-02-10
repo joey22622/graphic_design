@@ -6,7 +6,7 @@ var exhibitHeight = 0;
 var hide;
 var reveal;
 var scrollLag;
-
+var scrollInterval;
 
 var hideReady = true;
 var consultScroll = false;
@@ -86,9 +86,12 @@ function createClientRow(client){
     const clientName = $("<h3>").addClass("client-name").text(client.name);
     const clientDetail = $("<p>").addClass("client-detail").text(client.blurb);
     const clientLogoBackdrop = $("<div>").addClass("client-logo-backdrop");
+    const xlMargin = $("<div class='x-margin x-left'>");
+    const xrMargin = $("<div class='x-margin x-right'>");
     const clientLogoWrap = $("<div>").addClass("client-logo-wrap").append(clientLogoBackdrop, client.logo);
+    const cutoutWrap = $("<div class='icon-cutout-wrap'>").append([xlMargin, clientLogoWrap, xrMargin]);
     const clientTextWrap = $("<div>").addClass("client-text-wrap").append(clientName, clientDetail);
-    const clientThumbnail = $("<div>").addClass("client-thumbnail").append(clientLogoWrap, clientTextWrap);
+    const clientThumbnail = $("<div>").addClass("client-thumbnail").append(cutoutWrap, clientTextWrap);
     const thumbnailWrap = $("<div>").addClass("client-thumbnail-wrap").append(clientThumbnail);
     const clientExhibits = $("<ul>").addClass("client-exhibits");
     const clientDescription = $("<div>").addClass("client-description");
@@ -99,7 +102,7 @@ function createClientRow(client){
             clientDescription.append(graph);
         }
     }
-    const clientLink = $("<a>").addClass("client-link").attr("href", client.link).text(client.linkText);
+    const clientLink = $("<a target='_blank'>").addClass("client-link").attr("href", client.link).text(client.linkText);
     const clientDescriptionWrap = $("<div>").addClass("client-description-wrap").append([clientDescription,clientLink]);
     const clientExhibitWrap = $("<div>").addClass("client-exhibit-wrap").append(clientDescriptionWrap, clientExhibits);
 
@@ -130,12 +133,14 @@ function handleExhibitCollapse(height, orderPrev, orderNew){
 function createExhibitRow(exhibit){
     let link = $("<div class='exhibit-outer-wrap'>");
     if(exhibit.imageLink.length > 0){
-        link = $("<a class='exhibit-outer-wrap'>").attr("href", exhibit.imageLink);
+        link = $("<a class='exhibit-outer-wrap' target='_blank'>").attr("href", exhibit.imageLink);
     }
+    const exhibitDetail = $("<p class='exhibit-detail'>").html(exhibit.imageDescription);
+
     // const exhibitCaption = $("<p>").addClass("exhibit-caption").text(exhibit.caption);
-    const exhibitImage = $("<div>").addClass("exhibit-image-wrap").append(renderImageType(exhibit));
-    const exhibitDetail = $("<p class=''exhibit-detail'>").text(exhibit.imageDescription);
-    link.append([exhibitImage, exhibitDetail]);
+    const exhibitTitle = $("<h4 class='exhibit-title'>").text(exhibit.imageTitle);
+    const exhibitImage = $("<div>").addClass("exhibit-image-wrap").append([exhibitTitle, renderImageType(exhibit), exhibitDetail]);
+    link.append(exhibitImage);
     const exhibitRow = $("<li>").addClass("exhibit-row").attr({"data-exhibit-id" : exhibit.id, "data-client-id" : exhibit.clientId, "id" : exhibit.ClientId + "-" + exhibit.id}).append(link);
     $("[data-id='" + exhibit.ClientId +"'] .client-exhibits").append(exhibitRow);
 }
@@ -167,9 +172,11 @@ function renderExhibits(id){
     if(wrapper.hasClass("active")){
         $(".client-exhibits").empty();
         $(".client-wrap.active").removeClass("active");
+        $(".thumb-active").removeClass("thumb-active");
         return;
     }
     $(".client-wrap.active").removeClass("active");
+    $(".thumb-active").removeClass("thumb-active");
     wrapper.addClass("active");
     $(".client-exhibits").empty();
     $(".client-wrap").attr("data-active" , "false");
@@ -229,7 +236,14 @@ $(document).on("click", ".client-wrap .client-thumbnail", function(){
     // const active
     renderExhibits(id);
     toggleLanding();
-    tabScroll();
+    // tabScroll();
+    scrollInterval = setInterval(function(){
+        tabScroll();
+    }, 30);
+    setTimeout(function(){
+        clearInterval(scrollInterval);
+    }, 300);
+
 
 });
 
@@ -260,12 +274,26 @@ function blankExhibitWrap(){
     
 }
 tabScroll();
+setTimeout(function(){
+    tabScroll();
+}, 300);
 
 
 $(".header-logo-wrap").on("click", function(){
     $("html, body").animate({scrollTop: 0}, 300);
     
 });
+$(document).on("mouseover", ".client-thumbnail", function(){
+    $(this).parent().css("background" , "white");
+});
+$(document).on("mouseleave", ".client-thumbnail", function(){
+    $(this).parent().removeAttr("style");
+    if($(this).parent().parent().hasClass("active")){
+        $(this).parent().addClass("thumb-active");
+    }
+});
+
 // $.get("/api/clients/front", function(data){
 
 // });
+

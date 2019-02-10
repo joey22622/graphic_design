@@ -27,6 +27,7 @@ header{
     position: fixed;
     height: 100vh;
     width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -207,6 +208,7 @@ header,
     justify-content: flex-end;
     align-items: center;
     flex-direction: column;
+    width: 100vw;
 }
 
 
@@ -490,9 +492,15 @@ $("nav").css({"margin-top" : "0"}); */
     font-weight: 100;
     font-size: .9rem;
     line-height: 1.4em;
-    width: 600px;
+    width: 100%;
     margin: 4rem auto;
     text-align: center;
+}
+@media only screen and (min-width: 962px){
+    .personal-bio{
+        width: 600px;
+    }
+
 }
 .personal-bio p{
     margin: 2rem;
@@ -520,41 +528,66 @@ $("nav").css({"margin-top" : "0"}); */
     overflow: hidden;
     width: 100%;
     box-shadow: 0 5px 15px rgba(0,0,0,.2);
+    transition: .3s;
+    border: solid 1px white;
+
 }
 .client-thumbnail{
     display: flex;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+    width: 700px;
+    padding: 1rem;
+}
+@media only screen and (min-width: 962px){
+    .client-thumbnail{
+        padding: 0 2rem;
+    }
 }
 
 
 .client-logo-wrap{
     position: relative;
-    width: 100px;
-    height: 100px; 
-    margin: 0 1rem;
+    width: 100%;
+    height: 100%; 
+    /* margin: 0 1rem; */
     background: white;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
     transition: .3s;
+    z-index: 0;
+}
+@media only screen and (min-width: 962px){
+    .client-logo-wrap{
+        width: 100px;
+        height: 100px; 
+    }
 }
 .client-logo-backdrop{
     position: absolute;
     background: rgba(0,0,0,.06);
-    height: 90%;
-    width: 90%;
-    margin: 5%;
-
-
+    height: 100%;
+    width: 100%;
+}
+.icon-cutout-wrap{
+    display: flex;
+    align-items: stretch;
+}
+.x-margin{
+    width: 1rem;
+    background: white;
+    margin: 0 -2px;
+    position: relative;
+    z-index: 1;
+    transition: .3s;
 }
 .client-logo-wrap svg{
     height: 100%;
     width: 100%;
-    filter: drop-shadow( 2px 2px 2px rgba(0,0,0,.2) );
-    
+    filter: drop-shadow( 2px 2px 2px rgba(0,0,0,.2) );    
 }
 .client-logo-wrap svg path{
     opacity: 1;
@@ -578,8 +611,21 @@ $("nav").css({"margin-top" : "0"}); */
     padding: .5rem 2rem;
     font-weight: 100;
     text-align: center;
-
-
+}
+@media only screen and (max-width: 962px){
+    .client-name{
+        position: relative;
+        background: white;
+        margin-top: -2px;
+        z-index: 3;
+        line-height: 1.5em;
+        font-size: .8rem;
+        padding: .6rem 0;
+        margin-bottom: .6rem;
+    }
+    .thumb-active .client-name{
+        background: #1f2025;
+    }
 }
 .client-wrap .client-name{
     text-transform: uppercase;
@@ -591,6 +637,7 @@ $("nav").css({"margin-top" : "0"}); */
 .client-detail{
     color: rgba(0,0,0,.6);
     font-size: .85rem;
+    line-height: 1.4em;
 }
 
 
@@ -604,30 +651,84 @@ $("nav").css({"margin-top" : "0"}); */
         justify-content: space-between;
         transition: .3s;
         box-shadow: 0px 0px 0px black;
-        padding:  0 1rem;
+        padding:  0 2rem;
         border-left: solid 1px white;
         border-right: solid 1px white;
-
+    }
+    .thumb-active .client-thumbnail:hover{
+        background: white;
+        box-shadow: none;
+        color: black;
+    }
+    .thumb-active .client-thumbnail:hover .client-name{
+        border-bottom: solid 1px rgba(0,0,0,.1);
+    }
+    .thumb-active .client-thumbnail:hover .client-detail{
+        color: rgba(0,0,0,.6);
+    }
+    .thumb-active .client-thumbnail:hover svg *{
+        fill: white !important;
+    }
+    .thumb-active .client-thumbnail:hover .x-margin{
+        background: white;
     }
     .client-thumbnail:hover{
         /* background: #222; */
         box-shadow: 0px 0px 150px black;
         /* border-left: solid 1px rgba(0,0,0,.8);
         border-right: solid 1px rgba(0,0,0,.8); */
-
-
     }
     .client-thumbnail:hover .client-logo-wrap{
        background: rgba(0,0,0,.8);
     }
 
     .client-text-wrap{
-        width: 35rem;
+        /* width: 35rem; */
+        flex-grow: 1;
     }
     .client-name,
     .client-detail{
         text-align: left;
     }
+}
+.thumb-active.client-thumbnail-wrap{
+    background: #1f2025;
+    border: solid 1px white;
+}
+.thumb-active .client-thumbnail{
+    color: white;
+    border-left: solid 1px rgba(0,0,0,0);
+    border-right: solid 1px rgba(0,0,0,0);
+    box-shadow: 0px 0px 150px black;
+
+}
+.thumb-active .client-detail{
+    color: white;
+}
+.thumb-active .client-name{
+    border-bottom: solid 1px white;
+}
+.thumb-active .icon-cutout-wrap .x-margin{
+    background: #1f2025;
+}
+.thumb-active svg *{
+    fill: #1f2025 !important;
+    stroke: none !important;
+}
+.thumb-active .client-logo-backdrop{
+    background: white;
+    margin: 1px;
+    height: 99%;
+    width: 99%;
+}
+@media only screen and (min-width: 962px){
+    .thumb-active .client-logo-backdrop{
+        height: 98px;
+        width: 98px;
+    }
+}
+.thumb-active .client-logo-wrap{
+    background: none;
 }
 .client-exhibit-wrap{
     position: relative;
@@ -649,7 +750,7 @@ $("nav").css({"margin-top" : "0"}); */
     font-size: .9rem;
 }
 .client-description{
-    width: 800px;
+    width: 700px;
     font-weight: 200;
     padding: 2rem;
     line-height: 1.4em;
@@ -660,18 +761,38 @@ $("nav").css({"margin-top" : "0"}); */
 }
 
 .exhibit-image-wrap{
-    height: 450px;
-    width: 800px;
     padding: 2rem;
     background: white;
     box-shadow: 5px 5px 25px rgba(0,0,0,.1);
     margin: 1rem 0;
 }
+@media only screen and (min-width: 962px){
+    .exhibit-image-wrap{
+        width: 700px;
+    }
+}
+
 .exhibit-image-wrap img{
-    height: 100%;
+    height: 400px;
     width: 100%;
     object-fit: contain;
 
+}
+.exhibit-title{
+    font-weight: 100;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 1.4rem;
+}
+.exhibit-detail{
+    text-align: center;
+    font-size: .9rem;
+    line-height: 1.6em;
+    margin-top: 1.4rem;
+    font-weight: 100;
+}
+.exhibit-detail strong{
+    font-weight: 400;
 }
 @media screen and (min-width: 962px){
     .client-exhibit-wrap{
@@ -693,6 +814,13 @@ $("nav").css({"margin-top" : "0"}); */
 }
 .main-contact{
     display: flex;
+    flex-direction: column;
+
+}
+@media screen and (min-width: 962px){
+    .main-contact{
+        flex-direction: row;
+    }
 }
 
 .consult svg * {
