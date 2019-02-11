@@ -1,6 +1,6 @@
 {
   "development": {
-    "username": "root",
+    "username": "testuser",
     "password": "Bg$Pk-!]Sr2xkY7#",
     "database": "graphic_design",
     "host": "54.193.48.239",
@@ -14,10 +14,10 @@
     "dialect": "mysql"
   },
   "ec2": {
-    "username": "root",
-    "password": "mkpkf6kzh81pfoea",
+    "username": "testuser",
+    "password": "Bg$Pk-!]Sr2xkY7#",
     "database": "graphic_design",
-    "host": "172.31.12.168",
+    "host": "54.193.48.239",
     "dialect": "mysql"
   },
   "production": {
