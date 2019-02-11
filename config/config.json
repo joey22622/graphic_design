@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "mkpkf6kzh81pfoea",
-    "database": "graphic_design",
+    "database": "graphic_designs",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
