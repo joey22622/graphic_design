@@ -4,7 +4,8 @@
     "password": "mkpkf6kzh81pfoea",
     "database": "graphic_design",
     "host": "172.31.12.168",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port" : "8080"
   },
   "test": {
     "username": "root",
