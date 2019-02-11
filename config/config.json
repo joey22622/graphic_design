@@ -1,15 +1,14 @@
 {
   "development": {
     "username": "root",
-    "password": "mkpkf6kzh81pfoea",
+    "password": null,
     "database": "graphic_design",
-    "host": "172.31.12.168",
-    "dialect": "mysql",
-    "port" : "8080"
+    "host": "127.0.0.1",
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "mkpkf6kzh81pfoea",
+    "password": null,
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
@@ -19,6 +18,14 @@
     "password": "mkpkf6kzh81pfoea",
     "database": "graphic_design",
     "host": "172.31.12.168",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "l77qklu3zo3gxrm8",
+    "password": "mkpkf6kzh81pfoea",
+    "database": "g8hxiabznuux98al",
+    "host": "g3v9lgqa8h5nq05o.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "use_env_variable": "JAWSDB_URL",
     "dialect": "mysql"
   }
 }
