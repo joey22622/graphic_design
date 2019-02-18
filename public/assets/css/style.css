@@ -271,6 +271,9 @@ nav ul{
     width: 100%;
     margin-bottom: 2rem;
 }
+.portrait nav ul{
+    margin-bottom: 4rem;
+}
 
 .scrolled nav ul{
     margin-bottom: 0;
