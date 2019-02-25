@@ -7,6 +7,8 @@ var hide;
 var reveal;
 var scrollLag;
 var scrollInterval;
+let portrait;
+let landscape;
 
 var hideReady = true;
 var consultScroll = false;
@@ -24,6 +26,32 @@ window.addEventListener("resize", function(){
     // console.log(contentHeight);
     
 });
+function screenOrientation(){
+    if(window.innerHeight > window.innerWidth){
+        console.log("portrait");
+        $('.landscape').removeClass("landscape");
+        $('header, .content').addClass("portrait");
+        portrait = true;
+        landscape = false;
+        
+    } else if( window.innerHeight < window.innerWidth){
+        console.log("landscape");
+        $('.portrait').removeClass("portrait");
+        $('header, .content').addClass("landscape");
+        landscape = true;
+        portrait = false;
+    }
+}
+
+window.addEventListener("rotate", function(){
+    screenOrientation();
+});
+window.addEventListener("resize", function(){
+    screenOrientation();
+});
+
+screenOrientation();
+
 function toggleLanding(){
     var h1Top;
     if($(this).scrollTop() > 40){

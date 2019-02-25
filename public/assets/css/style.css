@@ -272,6 +272,9 @@ nav ul{
     width: 100%;
     margin-bottom: 2rem;
 }
+.portrait nav ul{
+    margin-bottom: 4rem;
+}
 
 .scrolled nav ul{
     margin-bottom: 0;
@@ -814,13 +817,14 @@ $("nav").css({"margin-top" : "0"}); */
 
 }
 .main-contact{
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+
 
 }
 @media screen and (min-width: 962px){
     .main-contact{
-        flex-direction: row;
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -837,14 +841,15 @@ $("nav").css({"margin-top" : "0"}); */
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    /* background: white; */
     padding: 1rem;
-    min-width: 18rem;
-    margin: 1rem .5rem;
-    /* border: solid black 1px; */
+    margin: .5rem;
     transition: .3s;
 }
 
+.main-contact> a{
+    display: block;
+    flex-grow: 1;
+}
 .main-contact-item,
 .secondary-contact .social-link{
     box-shadow: 2px 2px 7px rgba(0,0,0,.6);
@@ -898,14 +903,28 @@ $("nav").css({"margin-top" : "0"}); */
     font-size: .8rem;
     line-height: 1rem;
 }
-.secondary-contact{
+.contact-wrap{
+    /* background: green; */
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
 }
+.secondary-contact{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media screen and (min-width: 962px){
+    .secondary-contact{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
 .social-link{
-    height: 5rem;
-    width: 5rem;
+    height: 6rem;
+    width: 6rem;
     padding: 1rem;
-    margin: 0 .5rem;
+    margin: .5rem;
     transition: .3s;
 }
 
