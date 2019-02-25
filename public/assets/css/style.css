@@ -87,6 +87,7 @@ header,
 .header-logo-wrap{
     background: rgba(100, 110, 150,.1);
     background: rgba(100, 140, 150,.3);
+    background: rgba(50, 190, 250,.2);
     position: relative;
     z-index: -1;
 }
