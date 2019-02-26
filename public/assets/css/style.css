@@ -1,3 +1,55 @@
+/* ICON FONT IMPORT */
+
+@font-face {
+    font-family: 'icomoon';
+    src:  url('../fonts/icomoon.eot?fkrlnc');
+    src:  url('../fonts/icomoon.eot?fkrlnc#iefix') format('embedded-opentype'),
+      url('../fonts/icomoon.ttf?fkrlnc') format('truetype'),
+      url('../fonts/icomoon.woff?fkrlnc') format('woff'),
+      url('../fonts/icomoon.svg?fkrlnc#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-contact_mail:before {
+    content: "\e900";
+  }
+  .icon-contact_phone:before {
+    content: "\e901";
+  }
+  .icon-logo_cutout:before {
+    content: "\e902";
+  }
+  .icon-social_behance:before {
+    content: "\e903";
+  }
+  .icon-social_dribbble:before {
+    content: "\e904";
+  }
+  .icon-social_github:before {
+    content: "\e905";
+  }
+  .icon-social_linkedin:before {
+    content: "\e906";
+  }
+  
+ /* CSS STYLES START */
+
 a,
 a:visited{
     text-decoration: none;
@@ -63,6 +115,7 @@ header{
     filter: drop-shadow( 1px 1px 1px rgba(0,0,0, .5) );
     /* filter: drop-shadow( 1px 1px 1px rgba(0,0,0, .6) ); */
 }
+.header-wrap spah
 .svg-background{
     height: 100%;
     width: 100%;
@@ -103,10 +156,11 @@ header,
 /* .scrolled .header-logo-wrap:hover{
     background: green;
 } */
-.header-wrap #logo path {
-    fill: #141414;
-    fill: #191920;
-    fill: #1f2025;
+.header-wrap span {
+    color: #1f2025;
+    text-shadow: 1px 1px 1px rgba(0,0,0, .5);
+    -webkit-text-stroke: .1px rgba(255,255,255,.4);
+
 
 }
 
@@ -189,6 +243,9 @@ header,
     width: 50px;
     overflow: hidden;
 }
+.header-logo-wrap span{
+    font-size: 50px;
+}
 
 
 @media screen and (min-width: 962px){
@@ -197,6 +254,9 @@ header,
         width: 60px;
         overflow: hidden;
         transition: .3s;
+    }
+    .header-logo-wrap span{
+        font-size: 60px;
     }
 
 }
@@ -888,6 +948,16 @@ $("nav").css({"margin-top" : "0"}); */
 .icon-wrap{
     transition: .3s;
 }
+
+.icon-wrap span,
+.social-wrap span{
+    font-size: 4.5rem;
+    color: rgba(210,220,230, .8);
+    text-shadow: 1px 2px 4px rgba(0,0,0, 1);
+    transition: .3s;
+
+}
+
 .contact-text{
     text-transform: uppercase;
     font-weight: 400;
@@ -926,6 +996,9 @@ $("nav").css({"margin-top" : "0"}); */
     padding: 1rem;
     margin: .5rem;
     transition: .3s;
+}
+.social-link span{
+    font-size: 6rem;
 }
 
 
